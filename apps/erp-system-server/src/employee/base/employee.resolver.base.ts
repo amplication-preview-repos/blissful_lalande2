@@ -17,7 +17,13 @@ import { Employee } from "./Employee";
 import { EmployeeCountArgs } from "./EmployeeCountArgs";
 import { EmployeeFindManyArgs } from "./EmployeeFindManyArgs";
 import { EmployeeFindUniqueArgs } from "./EmployeeFindUniqueArgs";
+import { CreateEmployeeArgs } from "./CreateEmployeeArgs";
+import { UpdateEmployeeArgs } from "./UpdateEmployeeArgs";
 import { DeleteEmployeeArgs } from "./DeleteEmployeeArgs";
+import { LeaveFindManyArgs } from "../../leave/base/LeaveFindManyArgs";
+import { Leave } from "../../leave/base/Leave";
+import { PayrollFindManyArgs } from "../../payroll/base/PayrollFindManyArgs";
+import { Payroll } from "../../payroll/base/Payroll";
 import { EmployeeService } from "../employee.service";
 @graphql.Resolver(() => Employee)
 export class EmployeeResolverBase {
@@ -51,6 +57,35 @@ export class EmployeeResolverBase {
   }
 
   @graphql.Mutation(() => Employee)
+  async createEmployee(
+    @graphql.Args() args: CreateEmployeeArgs
+  ): Promise<Employee> {
+    return await this.service.createEmployee({
+      ...args,
+      data: args.data,
+    });
+  }
+
+  @graphql.Mutation(() => Employee)
+  async updateEmployee(
+    @graphql.Args() args: UpdateEmployeeArgs
+  ): Promise<Employee | null> {
+    try {
+      return await this.service.updateEmployee({
+        ...args,
+        data: args.data,
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Employee)
   async deleteEmployee(
     @graphql.Args() args: DeleteEmployeeArgs
   ): Promise<Employee | null> {
@@ -64,5 +99,33 @@ export class EmployeeResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Leave], { name: "leaves" })
+  async findLeaves(
+    @graphql.Parent() parent: Employee,
+    @graphql.Args() args: LeaveFindManyArgs
+  ): Promise<Leave[]> {
+    const results = await this.service.findLeaves(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @graphql.ResolveField(() => [Payroll], { name: "payrolls" })
+  async findPayrolls(
+    @graphql.Parent() parent: Employee,
+    @graphql.Args() args: PayrollFindManyArgs
+  ): Promise<Payroll[]> {
+    const results = await this.service.findPayrolls(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

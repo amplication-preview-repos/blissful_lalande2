@@ -15,9 +15,15 @@ import { ReportModule } from "./report/report.module";
 import { OpportunityModule } from "./opportunity/opportunity.module";
 import { LeadModule } from "./lead/lead.module";
 import { ContactModule } from "./contact/contact.module";
-import { LeaveModule } from "./leave/leave.module";
 import { EmployeeModule } from "./employee/employee.module";
+import { LeaveModule } from "./leave/leave.module";
 import { PayrollModule } from "./payroll/payroll.module";
+import { InventoryModule } from "./inventory/inventory.module";
+import { WarehouseModule } from "./warehouse/warehouse.module";
+import { ShipmentModule } from "./shipment/shipment.module";
+import { ConfigurationModule } from "./configuration/configuration.module";
+import { ProductModule } from "./product/product.module";
+import { ComponentModule } from "./component/component.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -46,9 +52,15 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
     OpportunityModule,
     LeadModule,
     ContactModule,
-    LeaveModule,
     EmployeeModule,
+    LeaveModule,
     PayrollModule,
+    InventoryModule,
+    WarehouseModule,
+    ShipmentModule,
+    ConfigurationModule,
+    ProductModule,
+    ComponentModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

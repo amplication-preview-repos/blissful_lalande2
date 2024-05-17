@@ -69,18 +69,42 @@ import { ContactList } from "./contact/ContactList";
 import { ContactCreate } from "./contact/ContactCreate";
 import { ContactEdit } from "./contact/ContactEdit";
 import { ContactShow } from "./contact/ContactShow";
-import { LeaveList } from "./leave/LeaveList";
-import { LeaveCreate } from "./leave/LeaveCreate";
-import { LeaveEdit } from "./leave/LeaveEdit";
-import { LeaveShow } from "./leave/LeaveShow";
 import { EmployeeList } from "./employee/EmployeeList";
 import { EmployeeCreate } from "./employee/EmployeeCreate";
 import { EmployeeEdit } from "./employee/EmployeeEdit";
 import { EmployeeShow } from "./employee/EmployeeShow";
+import { LeaveList } from "./leave/LeaveList";
+import { LeaveCreate } from "./leave/LeaveCreate";
+import { LeaveEdit } from "./leave/LeaveEdit";
+import { LeaveShow } from "./leave/LeaveShow";
 import { PayrollList } from "./payroll/PayrollList";
 import { PayrollCreate } from "./payroll/PayrollCreate";
 import { PayrollEdit } from "./payroll/PayrollEdit";
 import { PayrollShow } from "./payroll/PayrollShow";
+import { InventoryList } from "./inventory/InventoryList";
+import { InventoryCreate } from "./inventory/InventoryCreate";
+import { InventoryEdit } from "./inventory/InventoryEdit";
+import { InventoryShow } from "./inventory/InventoryShow";
+import { WarehouseList } from "./warehouse/WarehouseList";
+import { WarehouseCreate } from "./warehouse/WarehouseCreate";
+import { WarehouseEdit } from "./warehouse/WarehouseEdit";
+import { WarehouseShow } from "./warehouse/WarehouseShow";
+import { ShipmentList } from "./shipment/ShipmentList";
+import { ShipmentCreate } from "./shipment/ShipmentCreate";
+import { ShipmentEdit } from "./shipment/ShipmentEdit";
+import { ShipmentShow } from "./shipment/ShipmentShow";
+import { ConfigurationList } from "./configuration/ConfigurationList";
+import { ConfigurationCreate } from "./configuration/ConfigurationCreate";
+import { ConfigurationEdit } from "./configuration/ConfigurationEdit";
+import { ConfigurationShow } from "./configuration/ConfigurationShow";
+import { ProductList } from "./product/ProductList";
+import { ProductCreate } from "./product/ProductCreate";
+import { ProductEdit } from "./product/ProductEdit";
+import { ProductShow } from "./product/ProductShow";
+import { ComponentList } from "./component/ComponentList";
+import { ComponentCreate } from "./component/ComponentCreate";
+import { ComponentEdit } from "./component/ComponentEdit";
+import { ComponentShow } from "./component/ComponentShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -220,13 +244,6 @@ const App = (): React.ReactElement => {
           show={ContactShow}
         />
         <Resource
-          name="Leave"
-          list={LeaveList}
-          edit={LeaveEdit}
-          create={LeaveCreate}
-          show={LeaveShow}
-        />
-        <Resource
           name="Employee"
           list={EmployeeList}
           edit={EmployeeEdit}
@@ -234,11 +251,60 @@ const App = (): React.ReactElement => {
           show={EmployeeShow}
         />
         <Resource
+          name="Leave"
+          list={LeaveList}
+          edit={LeaveEdit}
+          create={LeaveCreate}
+          show={LeaveShow}
+        />
+        <Resource
           name="Payroll"
           list={PayrollList}
           edit={PayrollEdit}
           create={PayrollCreate}
           show={PayrollShow}
+        />
+        <Resource
+          name="Inventory"
+          list={InventoryList}
+          edit={InventoryEdit}
+          create={InventoryCreate}
+          show={InventoryShow}
+        />
+        <Resource
+          name="Warehouse"
+          list={WarehouseList}
+          edit={WarehouseEdit}
+          create={WarehouseCreate}
+          show={WarehouseShow}
+        />
+        <Resource
+          name="Shipment"
+          list={ShipmentList}
+          edit={ShipmentEdit}
+          create={ShipmentCreate}
+          show={ShipmentShow}
+        />
+        <Resource
+          name="Configuration"
+          list={ConfigurationList}
+          edit={ConfigurationEdit}
+          create={ConfigurationCreate}
+          show={ConfigurationShow}
+        />
+        <Resource
+          name="Product"
+          list={ProductList}
+          edit={ProductEdit}
+          create={ProductCreate}
+          show={ProductShow}
+        />
+        <Resource
+          name="Component"
+          list={ComponentList}
+          edit={ComponentEdit}
+          create={ComponentCreate}
+          show={ComponentShow}
         />
       </Admin>
     </div>

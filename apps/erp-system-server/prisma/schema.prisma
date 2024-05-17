@@ -184,22 +184,101 @@ model Contact {
   updatedAt DateTime @updatedAt
 }
 
-model Leave {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
+model Employee {
+  createdAt  DateTime  @default(now())
+  department String?
+  email      String?
+  firstName  String?
+  id         String    @id @default(cuid())
+  jobTitle   String?
+  lastName   String?
+  leaves     Leave[]
+  payrolls   Payroll[]
+  phone      String?
+  salary     Float?
+  updatedAt  DateTime  @updatedAt
 }
 
-model Employee {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
+model Leave {
+  createdAt  DateTime  @default(now())
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+  employeeId String?
+  endDate    DateTime?
+  id         String    @id @default(cuid())
+  reason     String?
+  startDate  DateTime?
+  updatedAt  DateTime  @updatedAt
 }
 
 model Payroll {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  updatedAt DateTime @updatedAt
+  amount     Float?
+  createdAt  DateTime  @default(now())
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+  employeeId String?
+  id         String    @id @default(cuid())
+  payDate    DateTime?
+  updatedAt  DateTime  @updatedAt
+}
+
+model Inventory {
+  createdAt   DateTime   @default(now())
+  id          String     @id @default(cuid())
+  productName String?
+  quantity    Int?
+  shipments   Shipment[]
+  updatedAt   DateTime   @updatedAt
+  warehouse   Warehouse? @relation(fields: [warehouseId], references: [id])
+  warehouseId String?
+}
+
+model Warehouse {
+  capacity    Int?
+  createdAt   DateTime    @default(now())
+  id          String      @id @default(cuid())
+  inventories Inventory[]
+  location    String?
+  name        String?
+  updatedAt   DateTime    @updatedAt
+}
+
+model Shipment {
+  createdAt    DateTime            @default(now())
+  id           String              @id @default(cuid())
+  inventory    Inventory?          @relation(fields: [inventoryId], references: [id])
+  inventoryId  String?
+  shipmentDate DateTime?
+  status       EnumShipmentStatus?
+  updatedAt    DateTime            @updatedAt
+}
+
+model Configuration {
+  components Component[]
+  createdAt  DateTime    @default(now())
+  id         String      @id @default(cuid())
+  name       String?
+  product    Product?    @relation(fields: [productId], references: [id])
+  productId  String?
+  updatedAt  DateTime    @updatedAt
+}
+
+model Product {
+  configurations Configuration[]
+  createdAt      DateTime        @default(now())
+  description    String?
+  id             String          @id @default(cuid())
+  name           String?
+  price          Float?
+  updatedAt      DateTime        @updatedAt
+}
+
+model Component {
+  componentType   EnumComponentComponentType?
+  configuration   Configuration?              @relation(fields: [configurationId], references: [id])
+  configurationId String?
+  createdAt       DateTime                    @default(now())
+  id              String                      @id @default(cuid())
+  name            String?
+  updatedAt       DateTime                    @updatedAt
 }
 
 enum EnumClaimPriority {
@@ -227,5 +306,13 @@ enum EnumProjectStatus {
 }
 
 enum EnumLeadStatus {
+  Option1
+}
+
+enum EnumShipmentStatus {
+  Option1
+}
+
+enum EnumComponentComponentType {
   Option1
 }

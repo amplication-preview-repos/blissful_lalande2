@@ -17,7 +17,10 @@ import { Payroll } from "./Payroll";
 import { PayrollCountArgs } from "./PayrollCountArgs";
 import { PayrollFindManyArgs } from "./PayrollFindManyArgs";
 import { PayrollFindUniqueArgs } from "./PayrollFindUniqueArgs";
+import { CreatePayrollArgs } from "./CreatePayrollArgs";
+import { UpdatePayrollArgs } from "./UpdatePayrollArgs";
 import { DeletePayrollArgs } from "./DeletePayrollArgs";
+import { Employee } from "../../employee/base/Employee";
 import { PayrollService } from "../payroll.service";
 @graphql.Resolver(() => Payroll)
 export class PayrollResolverBase {
@@ -51,6 +54,51 @@ export class PayrollResolverBase {
   }
 
   @graphql.Mutation(() => Payroll)
+  async createPayroll(
+    @graphql.Args() args: CreatePayrollArgs
+  ): Promise<Payroll> {
+    return await this.service.createPayroll({
+      ...args,
+      data: {
+        ...args.data,
+
+        employee: args.data.employee
+          ? {
+              connect: args.data.employee,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @graphql.Mutation(() => Payroll)
+  async updatePayroll(
+    @graphql.Args() args: UpdatePayrollArgs
+  ): Promise<Payroll | null> {
+    try {
+      return await this.service.updatePayroll({
+        ...args,
+        data: {
+          ...args.data,
+
+          employee: args.data.employee
+            ? {
+                connect: args.data.employee,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Payroll)
   async deletePayroll(
     @graphql.Args() args: DeletePayrollArgs
   ): Promise<Payroll | null> {
@@ -64,5 +112,20 @@ export class PayrollResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Employee, {
+    nullable: true,
+    name: "employee",
+  })
+  async getEmployee(
+    @graphql.Parent() parent: Payroll
+  ): Promise<Employee | null> {
+    const result = await this.service.getEmployee(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

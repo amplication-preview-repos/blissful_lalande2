@@ -11,12 +11,38 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringFilter } from "../../util/StringFilter";
+import { FloatNullableFilter } from "../../util/FloatNullableFilter";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { IsOptional, ValidateNested } from "class-validator";
+import { EmployeeWhereUniqueInput } from "../../employee/base/EmployeeWhereUniqueInput";
+import { StringFilter } from "../../util/StringFilter";
+import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 
 @InputType()
 class PayrollWhereInput {
+  @ApiProperty({
+    required: false,
+    type: FloatNullableFilter,
+  })
+  @Type(() => FloatNullableFilter)
+  @IsOptional()
+  @Field(() => FloatNullableFilter, {
+    nullable: true,
+  })
+  amount?: FloatNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => EmployeeWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => EmployeeWhereUniqueInput)
+  @IsOptional()
+  @Field(() => EmployeeWhereUniqueInput, {
+    nullable: true,
+  })
+  employee?: EmployeeWhereUniqueInput;
+
   @ApiProperty({
     required: false,
     type: StringFilter,
@@ -27,6 +53,17 @@ class PayrollWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: DateTimeNullableFilter,
+  })
+  @Type(() => DateTimeNullableFilter)
+  @IsOptional()
+  @Field(() => DateTimeNullableFilter, {
+    nullable: true,
+  })
+  payDate?: DateTimeNullableFilter;
 }
 
 export { PayrollWhereInput as PayrollWhereInput };

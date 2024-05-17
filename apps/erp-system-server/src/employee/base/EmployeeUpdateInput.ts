@@ -9,5 +9,120 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-class EmployeeUpdateInput {}
+import { InputType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
+import {
+  IsString,
+  IsOptional,
+  ValidateNested,
+  IsNumber,
+} from "class-validator";
+import { LeaveUpdateManyWithoutEmployeesInput } from "./LeaveUpdateManyWithoutEmployeesInput";
+import { Type } from "class-transformer";
+import { PayrollUpdateManyWithoutEmployeesInput } from "./PayrollUpdateManyWithoutEmployeesInput";
+
+@InputType()
+class EmployeeUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  department?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  email?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  firstName?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  jobTitle?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  lastName?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => LeaveUpdateManyWithoutEmployeesInput,
+  })
+  @ValidateNested()
+  @Type(() => LeaveUpdateManyWithoutEmployeesInput)
+  @IsOptional()
+  @Field(() => LeaveUpdateManyWithoutEmployeesInput, {
+    nullable: true,
+  })
+  leaves?: LeaveUpdateManyWithoutEmployeesInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => PayrollUpdateManyWithoutEmployeesInput,
+  })
+  @ValidateNested()
+  @Type(() => PayrollUpdateManyWithoutEmployeesInput)
+  @IsOptional()
+  @Field(() => PayrollUpdateManyWithoutEmployeesInput, {
+    nullable: true,
+  })
+  payrolls?: PayrollUpdateManyWithoutEmployeesInput;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  phone?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsNumber()
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  salary?: number | null;
+}
+
 export { EmployeeUpdateInput as EmployeeUpdateInput };

@@ -31,10 +31,27 @@ export class PayrollControllerBase {
     @common.Body() data: PayrollCreateInput
   ): Promise<Payroll> {
     return await this.service.createPayroll({
-      data: data,
+      data: {
+        ...data,
+
+        employee: data.employee
+          ? {
+              connect: data.employee,
+            }
+          : undefined,
+      },
       select: {
+        amount: true,
         createdAt: true,
+
+        employee: {
+          select: {
+            id: true,
+          },
+        },
+
         id: true,
+        payDate: true,
         updatedAt: true,
       },
     });
@@ -48,8 +65,17 @@ export class PayrollControllerBase {
     return this.service.payrolls({
       ...args,
       select: {
+        amount: true,
         createdAt: true,
+
+        employee: {
+          select: {
+            id: true,
+          },
+        },
+
         id: true,
+        payDate: true,
         updatedAt: true,
       },
     });
@@ -64,8 +90,17 @@ export class PayrollControllerBase {
     const result = await this.service.payroll({
       where: params,
       select: {
+        amount: true,
         createdAt: true,
+
+        employee: {
+          select: {
+            id: true,
+          },
+        },
+
         id: true,
+        payDate: true,
         updatedAt: true,
       },
     });
@@ -87,10 +122,27 @@ export class PayrollControllerBase {
     try {
       return await this.service.updatePayroll({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          employee: data.employee
+            ? {
+                connect: data.employee,
+              }
+            : undefined,
+        },
         select: {
+          amount: true,
           createdAt: true,
+
+          employee: {
+            select: {
+              id: true,
+            },
+          },
+
           id: true,
+          payDate: true,
           updatedAt: true,
         },
       });
@@ -114,8 +166,17 @@ export class PayrollControllerBase {
       return await this.service.deletePayroll({
         where: params,
         select: {
+          amount: true,
           createdAt: true,
+
+          employee: {
+            select: {
+              id: true,
+            },
+          },
+
           id: true,
+          payDate: true,
           updatedAt: true,
         },
       });

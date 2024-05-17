@@ -17,7 +17,10 @@ import { Leave } from "./Leave";
 import { LeaveCountArgs } from "./LeaveCountArgs";
 import { LeaveFindManyArgs } from "./LeaveFindManyArgs";
 import { LeaveFindUniqueArgs } from "./LeaveFindUniqueArgs";
+import { CreateLeaveArgs } from "./CreateLeaveArgs";
+import { UpdateLeaveArgs } from "./UpdateLeaveArgs";
 import { DeleteLeaveArgs } from "./DeleteLeaveArgs";
+import { Employee } from "../../employee/base/Employee";
 import { LeaveService } from "../leave.service";
 @graphql.Resolver(() => Leave)
 export class LeaveResolverBase {
@@ -49,6 +52,49 @@ export class LeaveResolverBase {
   }
 
   @graphql.Mutation(() => Leave)
+  async createLeave(@graphql.Args() args: CreateLeaveArgs): Promise<Leave> {
+    return await this.service.createLeave({
+      ...args,
+      data: {
+        ...args.data,
+
+        employee: args.data.employee
+          ? {
+              connect: args.data.employee,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @graphql.Mutation(() => Leave)
+  async updateLeave(
+    @graphql.Args() args: UpdateLeaveArgs
+  ): Promise<Leave | null> {
+    try {
+      return await this.service.updateLeave({
+        ...args,
+        data: {
+          ...args.data,
+
+          employee: args.data.employee
+            ? {
+                connect: args.data.employee,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Leave)
   async deleteLeave(
     @graphql.Args() args: DeleteLeaveArgs
   ): Promise<Leave | null> {
@@ -62,5 +108,18 @@ export class LeaveResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Employee, {
+    nullable: true,
+    name: "employee",
+  })
+  async getEmployee(@graphql.Parent() parent: Leave): Promise<Employee | null> {
+    const result = await this.service.getEmployee(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

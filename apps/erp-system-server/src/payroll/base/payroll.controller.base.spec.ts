@@ -18,25 +18,33 @@ import { PayrollService } from "../payroll.service";
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
+  amount: 42.42,
   createdAt: new Date(),
   id: "exampleId",
+  payDate: new Date(),
   updatedAt: new Date(),
 };
 const CREATE_RESULT = {
+  amount: 42.42,
   createdAt: new Date(),
   id: "exampleId",
+  payDate: new Date(),
   updatedAt: new Date(),
 };
 const FIND_MANY_RESULT = [
   {
+    amount: 42.42,
     createdAt: new Date(),
     id: "exampleId",
+    payDate: new Date(),
     updatedAt: new Date(),
   },
 ];
 const FIND_ONE_RESULT = {
+  amount: 42.42,
   createdAt: new Date(),
   id: "exampleId",
+  payDate: new Date(),
   updatedAt: new Date(),
 };
 
@@ -123,6 +131,7 @@ describe("Payroll", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        payDate: CREATE_RESULT.payDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       });
   });
@@ -135,6 +144,7 @@ describe("Payroll", () => {
         {
           ...FIND_MANY_RESULT[0],
           createdAt: FIND_MANY_RESULT[0].createdAt.toISOString(),
+          payDate: FIND_MANY_RESULT[0].payDate.toISOString(),
           updatedAt: FIND_MANY_RESULT[0].updatedAt.toISOString(),
         },
       ]);
@@ -158,6 +168,7 @@ describe("Payroll", () => {
       .expect({
         ...FIND_ONE_RESULT,
         createdAt: FIND_ONE_RESULT.createdAt.toISOString(),
+        payDate: FIND_ONE_RESULT.payDate.toISOString(),
         updatedAt: FIND_ONE_RESULT.updatedAt.toISOString(),
       });
   });
@@ -171,6 +182,7 @@ describe("Payroll", () => {
       .expect({
         ...CREATE_RESULT,
         createdAt: CREATE_RESULT.createdAt.toISOString(),
+        payDate: CREATE_RESULT.payDate.toISOString(),
         updatedAt: CREATE_RESULT.updatedAt.toISOString(),
       })
       .then(function () {

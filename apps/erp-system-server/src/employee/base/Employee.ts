@@ -11,8 +11,16 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString } from "class-validator";
+import {
+  IsDate,
+  IsString,
+  IsOptional,
+  ValidateNested,
+  IsNumber,
+} from "class-validator";
 import { Type } from "class-transformer";
+import { Leave } from "../../leave/base/Leave";
+import { Payroll } from "../../payroll/base/Payroll";
 
 @ObjectType()
 class Employee {
@@ -25,12 +33,107 @@ class Employee {
   createdAt!: Date;
 
   @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  department!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  email!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  firstName!: string | null;
+
+  @ApiProperty({
     required: true,
     type: String,
   })
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  jobTitle!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  lastName!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Leave],
+  })
+  @ValidateNested()
+  @Type(() => Leave)
+  @IsOptional()
+  leaves?: Array<Leave>;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Payroll],
+  })
+  @ValidateNested()
+  @Type(() => Payroll)
+  @IsOptional()
+  payrolls?: Array<Payroll>;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  phone!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsNumber()
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  salary!: number | null;
 
   @ApiProperty({
     required: true,

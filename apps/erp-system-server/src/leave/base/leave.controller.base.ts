@@ -29,10 +29,28 @@ export class LeaveControllerBase {
   @swagger.ApiCreatedResponse({ type: Leave })
   async createLeave(@common.Body() data: LeaveCreateInput): Promise<Leave> {
     return await this.service.createLeave({
-      data: data,
+      data: {
+        ...data,
+
+        employee: data.employee
+          ? {
+              connect: data.employee,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
+
+        employee: {
+          select: {
+            id: true,
+          },
+        },
+
+        endDate: true,
         id: true,
+        reason: true,
+        startDate: true,
         updatedAt: true,
       },
     });
@@ -47,7 +65,17 @@ export class LeaveControllerBase {
       ...args,
       select: {
         createdAt: true,
+
+        employee: {
+          select: {
+            id: true,
+          },
+        },
+
+        endDate: true,
         id: true,
+        reason: true,
+        startDate: true,
         updatedAt: true,
       },
     });
@@ -63,7 +91,17 @@ export class LeaveControllerBase {
       where: params,
       select: {
         createdAt: true,
+
+        employee: {
+          select: {
+            id: true,
+          },
+        },
+
+        endDate: true,
         id: true,
+        reason: true,
+        startDate: true,
         updatedAt: true,
       },
     });
@@ -85,10 +123,28 @@ export class LeaveControllerBase {
     try {
       return await this.service.updateLeave({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          employee: data.employee
+            ? {
+                connect: data.employee,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
+
+          employee: {
+            select: {
+              id: true,
+            },
+          },
+
+          endDate: true,
           id: true,
+          reason: true,
+          startDate: true,
           updatedAt: true,
         },
       });
@@ -113,7 +169,17 @@ export class LeaveControllerBase {
         where: params,
         select: {
           createdAt: true,
+
+          employee: {
+            select: {
+              id: true,
+            },
+          },
+
+          endDate: true,
           id: true,
+          reason: true,
+          startDate: true,
           updatedAt: true,
         },
       });

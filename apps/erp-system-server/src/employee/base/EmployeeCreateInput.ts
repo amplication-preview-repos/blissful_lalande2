@@ -9,5 +9,120 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-class EmployeeCreateInput {}
+import { InputType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
+import {
+  IsString,
+  IsOptional,
+  ValidateNested,
+  IsNumber,
+} from "class-validator";
+import { LeaveCreateNestedManyWithoutEmployeesInput } from "./LeaveCreateNestedManyWithoutEmployeesInput";
+import { Type } from "class-transformer";
+import { PayrollCreateNestedManyWithoutEmployeesInput } from "./PayrollCreateNestedManyWithoutEmployeesInput";
+
+@InputType()
+class EmployeeCreateInput {
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  department?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  email?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  firstName?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  jobTitle?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  lastName?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => LeaveCreateNestedManyWithoutEmployeesInput,
+  })
+  @ValidateNested()
+  @Type(() => LeaveCreateNestedManyWithoutEmployeesInput)
+  @IsOptional()
+  @Field(() => LeaveCreateNestedManyWithoutEmployeesInput, {
+    nullable: true,
+  })
+  leaves?: LeaveCreateNestedManyWithoutEmployeesInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => PayrollCreateNestedManyWithoutEmployeesInput,
+  })
+  @ValidateNested()
+  @Type(() => PayrollCreateNestedManyWithoutEmployeesInput)
+  @IsOptional()
+  @Field(() => PayrollCreateNestedManyWithoutEmployeesInput, {
+    nullable: true,
+  })
+  payrolls?: PayrollCreateNestedManyWithoutEmployeesInput;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  phone?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsNumber()
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  salary?: number | null;
+}
+
 export { EmployeeCreateInput as EmployeeCreateInput };

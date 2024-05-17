@@ -22,6 +22,12 @@ import { Employee } from "./Employee";
 import { EmployeeFindManyArgs } from "./EmployeeFindManyArgs";
 import { EmployeeWhereUniqueInput } from "./EmployeeWhereUniqueInput";
 import { EmployeeUpdateInput } from "./EmployeeUpdateInput";
+import { LeaveFindManyArgs } from "../../leave/base/LeaveFindManyArgs";
+import { Leave } from "../../leave/base/Leave";
+import { LeaveWhereUniqueInput } from "../../leave/base/LeaveWhereUniqueInput";
+import { PayrollFindManyArgs } from "../../payroll/base/PayrollFindManyArgs";
+import { Payroll } from "../../payroll/base/Payroll";
+import { PayrollWhereUniqueInput } from "../../payroll/base/PayrollWhereUniqueInput";
 
 export class EmployeeControllerBase {
   constructor(protected readonly service: EmployeeService) {}
@@ -34,7 +40,14 @@ export class EmployeeControllerBase {
       data: data,
       select: {
         createdAt: true,
+        department: true,
+        email: true,
+        firstName: true,
         id: true,
+        jobTitle: true,
+        lastName: true,
+        phone: true,
+        salary: true,
         updatedAt: true,
       },
     });
@@ -49,7 +62,14 @@ export class EmployeeControllerBase {
       ...args,
       select: {
         createdAt: true,
+        department: true,
+        email: true,
+        firstName: true,
         id: true,
+        jobTitle: true,
+        lastName: true,
+        phone: true,
+        salary: true,
         updatedAt: true,
       },
     });
@@ -65,7 +85,14 @@ export class EmployeeControllerBase {
       where: params,
       select: {
         createdAt: true,
+        department: true,
+        email: true,
+        firstName: true,
         id: true,
+        jobTitle: true,
+        lastName: true,
+        phone: true,
+        salary: true,
         updatedAt: true,
       },
     });
@@ -90,7 +117,14 @@ export class EmployeeControllerBase {
         data: data,
         select: {
           createdAt: true,
+          department: true,
+          email: true,
+          firstName: true,
           id: true,
+          jobTitle: true,
+          lastName: true,
+          phone: true,
+          salary: true,
           updatedAt: true,
         },
       });
@@ -115,7 +149,14 @@ export class EmployeeControllerBase {
         where: params,
         select: {
           createdAt: true,
+          department: true,
+          email: true,
+          firstName: true,
           id: true,
+          jobTitle: true,
+          lastName: true,
+          phone: true,
+          salary: true,
           updatedAt: true,
         },
       });
@@ -127,5 +168,172 @@ export class EmployeeControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/leaves")
+  @ApiNestedQuery(LeaveFindManyArgs)
+  async findLeaves(
+    @common.Req() request: Request,
+    @common.Param() params: EmployeeWhereUniqueInput
+  ): Promise<Leave[]> {
+    const query = plainToClass(LeaveFindManyArgs, request.query);
+    const results = await this.service.findLeaves(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+
+        employee: {
+          select: {
+            id: true,
+          },
+        },
+
+        endDate: true,
+        id: true,
+        reason: true,
+        startDate: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/leaves")
+  async connectLeaves(
+    @common.Param() params: EmployeeWhereUniqueInput,
+    @common.Body() body: LeaveWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      leaves: {
+        connect: body,
+      },
+    };
+    await this.service.updateEmployee({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/leaves")
+  async updateLeaves(
+    @common.Param() params: EmployeeWhereUniqueInput,
+    @common.Body() body: LeaveWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      leaves: {
+        set: body,
+      },
+    };
+    await this.service.updateEmployee({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/leaves")
+  async disconnectLeaves(
+    @common.Param() params: EmployeeWhereUniqueInput,
+    @common.Body() body: LeaveWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      leaves: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateEmployee({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Get("/:id/payrolls")
+  @ApiNestedQuery(PayrollFindManyArgs)
+  async findPayrolls(
+    @common.Req() request: Request,
+    @common.Param() params: EmployeeWhereUniqueInput
+  ): Promise<Payroll[]> {
+    const query = plainToClass(PayrollFindManyArgs, request.query);
+    const results = await this.service.findPayrolls(params.id, {
+      ...query,
+      select: {
+        amount: true,
+        createdAt: true,
+
+        employee: {
+          select: {
+            id: true,
+          },
+        },
+
+        id: true,
+        payDate: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/payrolls")
+  async connectPayrolls(
+    @common.Param() params: EmployeeWhereUniqueInput,
+    @common.Body() body: PayrollWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      payrolls: {
+        connect: body,
+      },
+    };
+    await this.service.updateEmployee({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/payrolls")
+  async updatePayrolls(
+    @common.Param() params: EmployeeWhereUniqueInput,
+    @common.Body() body: PayrollWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      payrolls: {
+        set: body,
+      },
+    };
+    await this.service.updateEmployee({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/payrolls")
+  async disconnectPayrolls(
+    @common.Param() params: EmployeeWhereUniqueInput,
+    @common.Body() body: PayrollWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      payrolls: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateEmployee({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

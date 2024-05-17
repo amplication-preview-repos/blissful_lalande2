@@ -11,11 +11,29 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString } from "class-validator";
+import {
+  IsNumber,
+  IsOptional,
+  IsDate,
+  ValidateNested,
+  IsString,
+} from "class-validator";
 import { Type } from "class-transformer";
+import { Employee } from "../../employee/base/Employee";
 
 @ObjectType()
 class Payroll {
+  @ApiProperty({
+    required: false,
+    type: Number,
+  })
+  @IsNumber()
+  @IsOptional()
+  @Field(() => Number, {
+    nullable: true,
+  })
+  amount!: number | null;
+
   @ApiProperty({
     required: true,
   })
@@ -25,12 +43,32 @@ class Payroll {
   createdAt!: Date;
 
   @ApiProperty({
+    required: false,
+    type: () => Employee,
+  })
+  @ValidateNested()
+  @Type(() => Employee)
+  @IsOptional()
+  employee?: Employee | null;
+
+  @ApiProperty({
     required: true,
     type: String,
   })
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  payDate!: Date | null;
 
   @ApiProperty({
     required: true,

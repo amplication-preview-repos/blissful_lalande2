@@ -1,1 +1,7 @@
-export type PayrollUpdateInput = {};
+import { EmployeeWhereUniqueInput } from "../employee/EmployeeWhereUniqueInput";
+
+export type PayrollUpdateInput = {
+  amount?: number | null;
+  employee?: EmployeeWhereUniqueInput | null;
+  payDate?: Date | null;
+};
