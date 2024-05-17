@@ -12,7 +12,8 @@ https://docs.amplication.com/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { EnumComponentComponentType } from "./EnumComponentComponentType";
-import { IsEnum, IsOptional, ValidateNested, IsString } from "class-validator";
+import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
+import { EnumComponentCompType } from "./EnumComponentCompType";
 import { ConfigurationWhereUniqueInput } from "../../configuration/base/ConfigurationWhereUniqueInput";
 import { Type } from "class-transformer";
 
@@ -28,6 +29,28 @@ class ComponentCreateInput {
     nullable: true,
   })
   componentType?: "Option1" | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumComponentCompType,
+  })
+  @IsEnum(EnumComponentCompType)
+  @IsOptional()
+  @Field(() => EnumComponentCompType, {
+    nullable: true,
+  })
+  compType?: "Option1" | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  configRelation?: string | null;
 
   @ApiProperty({
     required: false,

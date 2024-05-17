@@ -201,6 +201,8 @@ export class ConfigurationControllerBase {
       ...query,
       select: {
         componentType: true,
+        compType: true,
+        configRelation: true,
 
         configuration: {
           select: {

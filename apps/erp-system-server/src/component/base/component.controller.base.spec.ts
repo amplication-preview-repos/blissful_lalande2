@@ -18,12 +18,14 @@ import { ComponentService } from "../component.service";
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
+  configRelation: "exampleConfigRelation",
   createdAt: new Date(),
   id: "exampleId",
   name: "exampleName",
   updatedAt: new Date(),
 };
 const CREATE_RESULT = {
+  configRelation: "exampleConfigRelation",
   createdAt: new Date(),
   id: "exampleId",
   name: "exampleName",
@@ -31,6 +33,7 @@ const CREATE_RESULT = {
 };
 const FIND_MANY_RESULT = [
   {
+    configRelation: "exampleConfigRelation",
     createdAt: new Date(),
     id: "exampleId",
     name: "exampleName",
@@ -38,6 +41,7 @@ const FIND_MANY_RESULT = [
   },
 ];
 const FIND_ONE_RESULT = {
+  configRelation: "exampleConfigRelation",
   createdAt: new Date(),
   id: "exampleId",
   name: "exampleName",

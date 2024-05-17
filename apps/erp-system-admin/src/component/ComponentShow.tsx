@@ -14,6 +14,8 @@ export const ComponentShow = (props: ShowProps): React.ReactElement => {
     <Show {...props}>
       <SimpleShowLayout>
         <TextField label="componentType" source="componentType" />
+        <TextField label="compType" source="compType" />
+        <TextField label="ConfigRelation" source="configRelation" />
         <ReferenceField
           label="Configuration"
           source="configuration.id"

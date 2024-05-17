@@ -13,10 +13,11 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { EnumComponentComponentType } from "./EnumComponentComponentType";
 import { IsEnum, IsOptional, ValidateNested } from "class-validator";
-import { ConfigurationWhereUniqueInput } from "../../configuration/base/ConfigurationWhereUniqueInput";
-import { Type } from "class-transformer";
-import { StringFilter } from "../../util/StringFilter";
+import { EnumComponentCompType } from "./EnumComponentCompType";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { Type } from "class-transformer";
+import { ConfigurationWhereUniqueInput } from "../../configuration/base/ConfigurationWhereUniqueInput";
+import { StringFilter } from "../../util/StringFilter";
 
 @InputType()
 class ComponentWhereInput {
@@ -30,6 +31,28 @@ class ComponentWhereInput {
     nullable: true,
   })
   componentType?: "Option1";
+
+  @ApiProperty({
+    required: false,
+    enum: EnumComponentCompType,
+  })
+  @IsEnum(EnumComponentCompType)
+  @IsOptional()
+  @Field(() => EnumComponentCompType, {
+    nullable: true,
+  })
+  compType?: "Option1";
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  configRelation?: StringNullableFilter;
 
   @ApiProperty({
     required: false,

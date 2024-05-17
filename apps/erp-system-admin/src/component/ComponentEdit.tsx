@@ -4,8 +4,8 @@ import {
   SimpleForm,
   EditProps,
   SelectInput,
-  ReferenceInput,
   TextInput,
+  ReferenceInput,
 } from "react-admin";
 import { ConfigurationTitle } from "../configuration/ConfigurationTitle";
 
@@ -21,6 +21,15 @@ export const ComponentEdit = (props: EditProps): React.ReactElement => {
           allowEmpty
           optionValue="value"
         />
+        <SelectInput
+          source="compType"
+          label="compType"
+          choices={[{ label: "Option 1", value: "Option1" }]}
+          optionText="label"
+          allowEmpty
+          optionValue="value"
+        />
+        <TextInput label="ConfigRelation" source="configRelation" />
         <ReferenceInput
           source="configuration.id"
           reference="Configuration"

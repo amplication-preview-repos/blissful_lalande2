@@ -32,6 +32,8 @@ export const ConfigurationShow = (props: ShowProps): React.ReactElement => {
         >
           <Datagrid rowClick="show">
             <TextField label="componentType" source="componentType" />
+            <TextField label="compType" source="compType" />
+            <TextField label="ConfigRelation" source="configRelation" />
             <ReferenceField
               label="Configuration"
               source="configuration.id"

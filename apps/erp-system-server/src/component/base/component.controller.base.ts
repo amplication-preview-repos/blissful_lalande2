@@ -42,6 +42,8 @@ export class ComponentControllerBase {
       },
       select: {
         componentType: true,
+        compType: true,
+        configRelation: true,
 
         configuration: {
           select: {
@@ -66,6 +68,8 @@ export class ComponentControllerBase {
       ...args,
       select: {
         componentType: true,
+        compType: true,
+        configRelation: true,
 
         configuration: {
           select: {
@@ -91,6 +95,8 @@ export class ComponentControllerBase {
       where: params,
       select: {
         componentType: true,
+        compType: true,
+        configRelation: true,
 
         configuration: {
           select: {
@@ -133,6 +139,8 @@ export class ComponentControllerBase {
         },
         select: {
           componentType: true,
+          compType: true,
+          configRelation: true,
 
           configuration: {
             select: {
@@ -167,6 +175,8 @@ export class ComponentControllerBase {
         where: params,
         select: {
           componentType: true,
+          compType: true,
+          configRelation: true,
 
           configuration: {
             select: {

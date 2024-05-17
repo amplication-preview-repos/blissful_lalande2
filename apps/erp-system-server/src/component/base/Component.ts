@@ -15,10 +15,11 @@ import { EnumComponentComponentType } from "./EnumComponentComponentType";
 import {
   IsEnum,
   IsOptional,
+  IsString,
   ValidateNested,
   IsDate,
-  IsString,
 } from "class-validator";
+import { EnumComponentCompType } from "./EnumComponentCompType";
 import { Configuration } from "../../configuration/base/Configuration";
 import { Type } from "class-transformer";
 
@@ -34,6 +35,28 @@ class Component {
     nullable: true,
   })
   componentType?: "Option1" | null;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumComponentCompType,
+  })
+  @IsEnum(EnumComponentCompType)
+  @IsOptional()
+  @Field(() => EnumComponentCompType, {
+    nullable: true,
+  })
+  compType?: "Option1" | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  configRelation!: string | null;
 
   @ApiProperty({
     required: false,

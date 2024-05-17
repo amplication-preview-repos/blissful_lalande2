@@ -273,6 +273,8 @@ model Product {
 
 model Component {
   componentType   EnumComponentComponentType?
+  compType        EnumComponentCompType?
+  configRelation  String?
   configuration   Configuration?              @relation(fields: [configurationId], references: [id])
   configurationId String?
   createdAt       DateTime                    @default(now())
@@ -314,5 +316,9 @@ enum EnumShipmentStatus {
 }
 
 enum EnumComponentComponentType {
+  Option1
+}
+
+enum EnumComponentCompType {
   Option1
 }
