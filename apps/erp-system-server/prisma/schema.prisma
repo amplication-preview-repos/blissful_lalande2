@@ -1,0 +1,324 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ClaimType {
+  claims      Claim[]
+  createdAt   DateTime @default(now())
+  description String?
+  id          String   @id @default(cuid())
+  typeName    String?
+  updatedAt   DateTime @updatedAt
+}
+
+model Claim {
+  claimType    ClaimType?         @relation(fields: [claimTypeId], references: [id])
+  claimTypeId  String?
+  createdAt    DateTime           @default(now())
+  createdDate  DateTime?
+  customer     Customer?          @relation(fields: [customerId], references: [id])
+  customerId   String?
+  description  String?
+  id           String             @id @default(cuid())
+  priority     EnumClaimPriority?
+  resolvedDate DateTime?
+  status       EnumClaimStatus?
+  title        String?
+  updatedAt    DateTime           @updatedAt
+}
+
+model Customer {
+  address   String?
+  claims    Claim[]
+  createdAt DateTime @default(now())
+  email     String?
+  id        String   @id @default(cuid())
+  name      String?
+  phone     String?
+  updatedAt DateTime @updatedAt
+}
+
+model Expense {
+  amount      Float?
+  category    EnumExpenseCategory?
+  createdAt   DateTime             @default(now())
+  description String?
+  expenseDate DateTime?
+  id          String               @id @default(cuid())
+  updatedAt   DateTime             @updatedAt
+}
+
+model Payment {
+  amount        Float?
+  createdAt     DateTime                  @default(now())
+  id            String                    @id @default(cuid())
+  invoice       Invoice?                  @relation(fields: [invoiceId], references: [id])
+  invoiceId     String?
+  paymentDate   DateTime?
+  paymentMethod EnumPaymentPaymentMethod?
+  updatedAt     DateTime                  @updatedAt
+}
+
+model Invoice {
+  createdAt     DateTime           @default(now())
+  dueDate       DateTime?
+  id            String             @id @default(cuid())
+  invoiceDate   DateTime?
+  invoiceNumber String?
+  payments      Payment[]
+  status        EnumInvoiceStatus?
+  totalAmount   Float?
+  updatedAt     DateTime           @updatedAt
+}
+
+model Project {
+  createdAt   DateTime           @default(now())
+  description String?
+  endDate     DateTime?
+  id          String             @id @default(cuid())
+  milestones  Milestone[]
+  name        String?
+  startDate   DateTime?
+  status      EnumProjectStatus?
+  tasks       Task[]
+  updatedAt   DateTime           @updatedAt
+}
+
+model Task {
+  assignedTo  String?
+  createdAt   DateTime  @default(now())
+  description String?
+  dueDate     DateTime?
+  id          String    @id @default(cuid())
+  project     Project?  @relation(fields: [projectId], references: [id])
+  projectId   String?
+  title       String?
+  updatedAt   DateTime  @updatedAt
+}
+
+model Milestone {
+  createdAt   DateTime  @default(now())
+  deadline    DateTime?
+  description String?
+  id          String    @id @default(cuid())
+  name        String?
+  project     Project?  @relation(fields: [projectId], references: [id])
+  projectId   String?
+  updatedAt   DateTime  @updatedAt
+}
+
+model Article {
+  author     String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  content    String?
+  createdAt  DateTime  @default(now())
+  id         String    @id @default(cuid())
+  title      String?
+  updatedAt  DateTime  @updatedAt
+}
+
+model Category {
+  articles    Article[]
+  createdAt   DateTime  @default(now())
+  description String?
+  id          String    @id @default(cuid())
+  name        String?
+  updatedAt   DateTime  @updatedAt
+}
+
+model Dashboard {
+  createdAt   DateTime @default(now())
+  description String?
+  id          String   @id @default(cuid())
+  name        String?
+  reports     Report[]
+  updatedAt   DateTime @updatedAt
+}
+
+model Report {
+  content     String?
+  createdAt   DateTime   @default(now())
+  createdDate DateTime?
+  dashboard   Dashboard? @relation(fields: [dashboardId], references: [id])
+  dashboardId String?
+  id          String     @id @default(cuid())
+  title       String?
+  updatedAt   DateTime   @updatedAt
+}
+
+model Opportunity {
+  closeDate DateTime?
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  lead      Lead?     @relation(fields: [leadId], references: [id])
+  leadId    String?
+  name      String?
+  updatedAt DateTime  @updatedAt
+  value     Float?
+}
+
+model Lead {
+  createdAt     DateTime        @default(now())
+  email         String?
+  id            String          @id @default(cuid())
+  name          String?
+  opportunities Opportunity[]
+  phone         String?
+  status        EnumLeadStatus?
+  updatedAt     DateTime        @updatedAt
+}
+
+model Contact {
+  createdAt DateTime @default(now())
+  email     String?
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  phone     String?
+  updatedAt DateTime @updatedAt
+}
+
+model Employee {
+  createdAt  DateTime  @default(now())
+  department String?
+  email      String?
+  firstName  String?
+  id         String    @id @default(cuid())
+  jobTitle   String?
+  lastName   String?
+  leaves     Leave[]
+  payrolls   Payroll[]
+  phone      String?
+  salary     Float?
+  updatedAt  DateTime  @updatedAt
+}
+
+model Leave {
+  createdAt  DateTime  @default(now())
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+  employeeId String?
+  endDate    DateTime?
+  id         String    @id @default(cuid())
+  reason     String?
+  startDate  DateTime?
+  updatedAt  DateTime  @updatedAt
+}
+
+model Payroll {
+  amount     Float?
+  createdAt  DateTime  @default(now())
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+  employeeId String?
+  id         String    @id @default(cuid())
+  payDate    DateTime?
+  updatedAt  DateTime  @updatedAt
+}
+
+model Inventory {
+  createdAt   DateTime   @default(now())
+  id          String     @id @default(cuid())
+  productName String?
+  quantity    Int?
+  shipments   Shipment[]
+  updatedAt   DateTime   @updatedAt
+  warehouse   Warehouse? @relation(fields: [warehouseId], references: [id])
+  warehouseId String?
+}
+
+model Warehouse {
+  capacity    Int?
+  createdAt   DateTime    @default(now())
+  id          String      @id @default(cuid())
+  inventories Inventory[]
+  location    String?
+  name        String?
+  updatedAt   DateTime    @updatedAt
+}
+
+model Shipment {
+  createdAt    DateTime            @default(now())
+  id           String              @id @default(cuid())
+  inventory    Inventory?          @relation(fields: [inventoryId], references: [id])
+  inventoryId  String?
+  shipmentDate DateTime?
+  status       EnumShipmentStatus?
+  updatedAt    DateTime            @updatedAt
+}
+
+model Configuration {
+  components Component[]
+  createdAt  DateTime    @default(now())
+  id         String      @id @default(cuid())
+  name       String?
+  product    Product?    @relation(fields: [productId], references: [id])
+  productId  String?
+  updatedAt  DateTime    @updatedAt
+}
+
+model Product {
+  configurations Configuration[]
+  createdAt      DateTime        @default(now())
+  description    String?
+  id             String          @id @default(cuid())
+  name           String?
+  price          Float?
+  updatedAt      DateTime        @updatedAt
+}
+
+model Component {
+  componentType   EnumComponentComponentType?
+  compType        EnumComponentCompType?
+  configRelation  String?
+  configuration   Configuration?              @relation(fields: [configurationId], references: [id])
+  configurationId String?
+  createdAt       DateTime                    @default(now())
+  id              String                      @id @default(cuid())
+  name            String?
+  updatedAt       DateTime                    @updatedAt
+}
+
+enum EnumClaimPriority {
+  Option1
+}
+
+enum EnumClaimStatus {
+  Option1
+}
+
+enum EnumExpenseCategory {
+  Option1
+}
+
+enum EnumPaymentPaymentMethod {
+  Option1
+}
+
+enum EnumInvoiceStatus {
+  Option1
+}
+
+enum EnumProjectStatus {
+  Option1
+}
+
+enum EnumLeadStatus {
+  Option1
+}
+
+enum EnumShipmentStatus {
+  Option1
+}
+
+enum EnumComponentComponentType {
+  Option1
+}
+
+enum EnumComponentCompType {
+  Option1
+}
